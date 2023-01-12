@@ -1,37 +1,52 @@
 <template>
-  <form @submit.prevent="handleSubmit">
+  <div class="home-wrapper">
     <div v-if="user">
-      <h3>Bonjour, {{ user.first_name }} {{ user.last_name }}</h3>
-      <button class="btn btn-primary btn-block">Gerer ses commandes</button>
-      <button class="btn btn-primary btn-block">Suivre ses livraisons</button>
-      <button class="btn btn-primary btn-block">Parainer un ami</button>
+      <v-container>
+        <v-row class="mx-auto">
+          <v-col>
+            <h3>Bonjour, {{ user.username }}</h3>
+          </v-col>
+        </v-row>
+      </v-container>
+      <v-container>
+        <v-row>
+          <v-col v-for="restaurant in restaurants" :key="restaurant.name" cols="4">
+            <v-card>
+              <restaurant-component :restaurant="restaurant"></restaurant-component>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
     <div v-else>
       <h3>tu n'es pas connecté</h3>
     </div>
-  </form>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { mapGetters } from "vuex";
-import { useRouter } from "vue-router";
+import RestaurantComponent from "./Restaurant.vue";
+import restaurants from "../data/products";
 
 export default defineComponent({
   name: "Home",
+  components: {
+    RestaurantComponent,
+  },
+  data() {
+    return {
+      restaurants,
+    };
+  },
   computed: {
     ...mapGetters(["user"]),
   },
   setup() {
-    const router = useRouter();
-
-    function handleSubmit() {
-      router.push('/edit');
-    }
-    return {
-      handleSubmit,
-    };
-  }
+  },
 });
 </script>
 
+<style scope>
+</style>

@@ -1,40 +1,47 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from '../components/Home.vue'
-import Login from '../components/Login.vue'
-import Register from '../components/Register.vue'
-import Forgot from '../components/Forgot.vue'
-import Settings from '../components/Settings.vue'
-import Delete from '../components/DeleteAccount.vue'
-import Edit from '../components/EditAccount.vue'
+import axios from 'axios'
 
 const routes: Array<RouteRecordRaw> = [
-{
+  {
     path: "/",
-    component: Home,
+    component: () => import('../components/Home.vue')
   },
   {
     path: "/login",
-    component: Login,
+    component: () => import('../components/Login.vue'),
   },
   {
     path: "/register",
-    component: Register,
+    component: () => import('../components/Register.vue'),
   },
   {
     path: "/forgot",
-    component: Forgot,
+    component: () => import('../components/Forgot.vue'),
   },
   {
     path: "/settings",
-    component: Settings,
+    component: () => import('../components/Settings.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: "/delete_account",
-    component: Delete,
+    component: () => import('../components/DeleteAccount.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: "/edit_account",
-    component: Edit,
+    component: () => import('../components/EditAccount.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/products",
+    component: () => import('../views/ProductView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/cart",
+    component: () => import('../views/CartView.vue'),
+    meta: { requiresAuth: true }
   },
 ]
 
@@ -42,6 +49,30 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    var token = localStorage.getItem('token');
+    if (token == null || token == undefined) {
+      next({ name: 'login' });
+    } else {
+      // make axios post on tokenCheckup and token in header at auth-token
+      axios.post('http://localhost:3000/api/tokenCheckup', {}, { headers: { 'auth-token': token } }).then((response) => {
+        if (response.data.message == 'Access granted') {
+          next();
+        } else {
+          next({ name: 'login' });
+        }
+      }).catch((error) => {
+        console.log(error);
+        next({ name: 'login' });
+      });
+    }
+  } else {
+    next();
+  }
+});
+
 
 export default router;
 

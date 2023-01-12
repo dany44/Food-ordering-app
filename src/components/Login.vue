@@ -1,34 +1,38 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <error v-if="error" :error="error" />
-    <h3>Se connecter</h3>
+  <div class="auth-wrapper">
+    <div class="auth-inner">
+      <form @submit.prevent="handleSubmit">
+        <error v-if="error" :error="error" />
+        <h3>Se connecter</h3>
 
-    <div class="form-group">
-      <label>Email</label>
-      <input
-        type="email"
-        class="form-control"
-        v-model="email"
-        placeholder="Email"
-      />
+        <div class="form-group">
+          <label>Pseudo</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="username"
+            placeholder="Pseudo"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input
+            type="password"
+            class="form-control"
+            v-model="password"
+            placeholder="Mot de passe"
+          />
+        </div>
+
+        <button class="btn btn-primary btn-block">Se connecter</button>
+
+        <p class="forgot-password text-right">
+          <router-link to="forgot">Mot de passe oublié ?</router-link>
+        </p>
+      </form>
     </div>
-
-    <div class="form-group">
-      <label>Mot de passe</label>
-      <input
-        type="password"
-        class="form-control"
-        v-model="password"
-        placeholder="Mot de passe"
-      />
-    </div>
-
-    <button class="btn btn-primary btn-block">Se connecter</button>
-
-    <p class="forgot-password text-right">
-      <router-link to="forgot">Mot de passe oublié ?</router-link>
-    </p>
-  </form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -44,7 +48,7 @@ export default defineComponent({
     Error,
   },
   setup() {
-    const email = ref("");
+    const username = ref("");
     const password = ref("");
     const error = ref("");
 
@@ -54,7 +58,7 @@ export default defineComponent({
     async function handleSubmit() {
       try {
         const response = await axios.post("login", {
-          email: email.value,
+          username: username.value,
           password: password.value,
         });
         localStorage.setItem("token", response.data.token);
@@ -66,7 +70,7 @@ export default defineComponent({
     }
 
     return {
-      email,
+      username,
       password,
       error,
       handleSubmit,
@@ -74,3 +78,6 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scope>
+</style>

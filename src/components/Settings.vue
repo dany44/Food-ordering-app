@@ -1,11 +1,15 @@
 <template>
-  <div>
-    <button @click="deleteAccount" class="btn btn-primary btn-block">
-      Supprimer le compte
-    </button>
-    <button @click="editAccount" class="btn btn-primary btn-block">
-      Modifier le compte
-    </button>
+  <div class="auth-wrapper">
+    <div class="auth-inner">
+      <div>
+        <button @click="deleteAccount" class="btn btn-primary btn-block">
+          Supprimer le compte
+        </button>
+        <button @click="editAccount" class="btn btn-primary btn-block">
+          Modifier le compte
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,3 +32,8 @@ export default defineComponent({
   },
 });
 </script>
+
+
+<style>
+
+</style>
