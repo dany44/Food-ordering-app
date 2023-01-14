@@ -114,7 +114,7 @@ router.post('/login', async (req, res) => {
     // create and assign a token
     const token = jwt.sign({ id: checkUserResult[0].iduser }, process.env.SECRET, { expiresIn: '2h' });
 
-    res.header('auth-token', token).json({ token: token, username: username, role: checkUserResult[0].role });
+    res.header('auth-token', token).json({ token: token, username: username, role: checkUserResult[0].role, referal_code: checkUserResult[0].referal_code });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -144,7 +144,7 @@ router.post('/delete', async (req, res) => {
     const deleteQuery = `DELETE FROM user WHERE iduser = ?`;
     const result = await pool.query(deleteQuery, [user_id.id]);
 
-    res.status(200).json({message: "success !"});
+    res.status(200).json({ message: "success !" });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -166,11 +166,35 @@ router.post('/update', async (req, res) => {
     // update user
     const sqlQuery = `UPDATE user SET first_name = ?, last_name = ?, username = ?, email = ?, updated_at = ? WHERE iduser = ?`;
     const result = await pool.query(sqlQuery, [first_name, last_name, username, email, date, user_id.id]);
-    res.status(200).json({message: "success !"});
+    res.status(200).json({ message: "success !" });
 
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
+});
+
+router.get('/referal', async (req, res) => {
+  try {
+
+    const token = req.header('auth-token');
+    // check if the token is valid
+    if (!token) return res.status(401).json({ message: "Access denied" });
+
+    const user_id = jwt.verify(token, process.env.SECRET);
+
+    const checkQuery = `SELECT COUNT(*) as count FROM user WHERE referal_code = (SELECT referal_by FROM user WHERE iduser = ?)`;
+    const result = await pool.query(checkQuery, [user_id.id]);
+
+    if (result[0].count > 0) {
+      return res.status(200).json({ message: "Referal code is valid", valid: true });
+    } else {
+      return res.status(200).json({ message: "Referal code is not valid", valid: false });
+    }
+
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@
       <v-row>
         <v-col v-for="rest in restaurant.menu" :key="rest.name" cols="4">
           <v-card>
-            <product-component :menu="rest"></product-component>
+            <product-component :menu="rest" :restaurant="restaurant"></product-component>
           </v-card>
         </v-col>
       </v-row>

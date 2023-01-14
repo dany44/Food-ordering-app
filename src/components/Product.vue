@@ -24,9 +24,7 @@
 
     <v-divider class="mx-4"></v-divider>
     <v-card-actions>
-      <v-btn color="deep-purple lighten-2" text @click="buy()">
-        Acheter
-      </v-btn>
+      <v-btn color="deep-purple lighten-2" text @click="buy()"> Acheter </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -37,10 +35,13 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { mapGetters } from "vuex";
 
-
 export default {
   props: {
     menu: {
+      type: Object,
+      required: true,
+    },
+    restaurant: {
       type: Object,
       required: true,
     },
@@ -50,8 +51,14 @@ export default {
     const router = useRouter();
     const store = useStore();
     function buy() {
-      store.dispatch("panier", props.menu);
-
+      const menuWithRestaurantInfo = {
+        ...props.menu,
+        restaurantName: props.restaurant.name,
+        restaurantAddress: props.restaurant.address,
+        restaurantOpen: props.restaurant.opening_hours,
+      };
+      store.dispatch("panier", menuWithRestaurantInfo);
+      console.log(menuWithRestaurantInfo)
     }
     return {
       buy,

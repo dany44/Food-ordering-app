@@ -2,8 +2,10 @@ const products = [
   {
     name: "Macdonald",
     address: "Saint-Nazaire",
+    opening_hours: [[12, 14], [18, 20]],
     menu: [{
       name: "Mcfirst",
+      quantity: 0,
       articles: [{
         name: "Coca Cola",
         type: "Boisson",
@@ -24,6 +26,7 @@ const products = [
     },
     {
       name: "BestOf",
+      quantity: 0,
       articles: [{
         name: "Coca Cola",
         type: "Boisson",
@@ -47,8 +50,10 @@ const products = [
   {
     name: "BurgerKing",
     address: "Saint-Nazaire",
+    opening_hours: [[12, 14], [18, 20]],
     menu: [{
-      name: "Mcfirst",
+      name: "Wopper",
+      quantity: 0,
       articles: [{
         name: "Coca Cola",
         type: "Boisson",
@@ -72,8 +77,10 @@ const products = [
   {
     name: "Quick",
     address: "Saint-Nazaire",
+    opening_hours: [[12, 14], [18, 20]],
     menu: [{
       name: "Mcfirst",
+      quantity: 0,
       articles: [{
         name: "Coca Cola",
         type: "Boisson",
@@ -97,8 +104,10 @@ const products = [
   {
     name: "Buffalo",
     address: "Saint-Nazaire",
+    opening_hours: [[12, 14], [18, 20]],
     menu: [{
       name: "Mcfirst",
+      quantity: 0,
       articles: [{
         name: "Coca Cola",
         type: "Boisson",
@@ -122,8 +131,10 @@ const products = [
   {
     name: "KFC",
     address: "Saint-Nazaire",
+    opening_hours: [[12, 14], [18, 20]],
     menu: [{
       name: "Mcfirst",
+      quantity: 0,
       articles: [{
         name: "Coca Cola",
         type: "Boisson",

@@ -18,7 +18,7 @@
   
       <v-card-text>
         <div>
-          {{ menu.price }}
+          {{ menu.quantity }}
         </div>
       </v-card-text>
   

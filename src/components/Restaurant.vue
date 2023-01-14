@@ -20,6 +20,19 @@
       <div>
         {{ restaurant.address }}
       </div>
+      <div>
+        <v-chip-group
+          active-class="deep-purple accent-4 white--text"
+          column
+        >
+          <template
+            v-for="(hours, index) in restaurant.opening_hours"
+            :key="index"
+          >
+            <v-chip>{{ hours[0] }}h - {{ hours[1] }}h </v-chip>
+          </template>
+        </v-chip-group>
+      </div>
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
@@ -34,6 +47,7 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -41,6 +55,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    ...mapGetters(["panier"])
   },
   data: () => ({}),
   setup(props: any) {

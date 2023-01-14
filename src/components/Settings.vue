@@ -2,6 +2,7 @@
   <div class="auth-wrapper">
     <div class="auth-inner">
       <div>
+        <h6>Votre code parrainage: {{ user.referal_code }}</h6>
         <button @click="deleteAccount" class="btn btn-primary btn-block">
           Supprimer le compte
         </button>
@@ -16,8 +17,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
+import { mapGetters } from "vuex";
 
 export default defineComponent({
+  computed: {
+    ...mapGetters(["user"]),
+  },
   setup() {
     const router = useRouter();
 

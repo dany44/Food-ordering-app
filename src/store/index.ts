@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 interface Item {
   name: string;
   price: number;
+  quantity: number;
   articles: [];
 }
 
@@ -31,8 +32,17 @@ export default createStore({
       state.restaurant = restaurant;
     },
     panier(state, panier) {
-      state.panier.push(panier);
+      const index = state.panier.findIndex(item => item.name === panier.name);
+      if (index !== -1) {
+        state.panier[index].quantity++;
+      } else {
+        state.panier.push({
+          ...panier,
+          quantity: 1
+        });
+      }
     },
+
     removeFromPanier(state, panier) {
       const index = state.panier.findIndex(item => item.name === panier.name);
       if (index !== -1) {

@@ -29,6 +29,9 @@
               >Paramètres</a
             >
           </li>
+          <li class="nav-item">
+            <a href="javascript:void(0)" class="nav-link"> </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -36,10 +39,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { mapGetters, useStore } from "vuex";
 import { useRouter } from "vue-router";
-import axios from "axios";
 
 export default defineComponent({
   name: "Nav",
@@ -60,10 +62,11 @@ export default defineComponent({
     async function handleClick3() {
       router.push("/cart");
     }
+
     return {
       handleClick,
       handleClick2,
-      handleClick3
+      handleClick3,
     };
   },
   computed: {

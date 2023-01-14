@@ -63,6 +63,7 @@ export default defineComponent({
         });
         localStorage.setItem("token", response.data.token);
         store.dispatch("user", response.data);
+        console.log(response.data)
         router.push("/");
       } catch (e) {
         error.value = "Email/Mot de passe invalide !";
