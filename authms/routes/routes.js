@@ -112,7 +112,7 @@ router.post('/login', async (req, res) => {
     if (!validPassword) return res.status(400).json({ message: "Invalid password" });
 
     // create and assign a token
-    const token = jwt.sign({ id: checkUserResult[0].iduser }, process.env.SECRET, { expiresIn: '2h' });
+    const token = jwt.sign({ id: checkUserResult[0].iduser }, process.env.SECRET, { expiresIn: "2h" });
 
     res.header('auth-token', token).json({ token: token, username: username, role: checkUserResult[0].role, referal_code: checkUserResult[0].referal_code });
   } catch (err) {

@@ -34,18 +34,56 @@
 import { defineComponent, ref } from "vue";
 import { mapGetters } from "vuex";
 import RestaurantComponent from "./Restaurant.vue";
-import restaurants from "../data/products";
+import { fetchRestaurants } from "../data/products";
 import axios from "axios";
+import { useStore } from "vuex";
+
+export interface Article {
+  name: string;
+  type: string;
+  quantity: number;
+  price: number;
+  image_url: string;
+}
+
+export interface Menu {
+  name: string;
+  articles: Article[];
+  price: number;
+  image_url: string;
+}
+
+export interface Restaurant {
+  name: string;
+  location: string;
+  opening_time: number[][];
+  menus: Menu[];
+  image_url: string;
+}
 
 export default defineComponent({
   name: "Home",
   components: {
     RestaurantComponent,
   },
+  created() {
+    const store = useStore();
+    let user = localStorage.getItem("user");
+    if (user) {
+      user = JSON.parse(user);
+      store.commit("user", user);
+    }
+  },
   data: () => {
     return {
-      restaurants,
-    };
+      restaurants: [],
+    } as { restaurants: Restaurant[] };
+  },
+  mounted() {
+    fetchRestaurants().then((res) => {
+      this.restaurants = res;
+      console.log(this.restaurants);
+    });
   },
   computed: {
     ...mapGetters(["user"]),
@@ -70,7 +108,7 @@ export default defineComponent({
         } else {
           balance.value = 0;
         }
-        console.log(response.data);
+        console.log(balance);
       } catch (error) {
         console.error(error);
       }
@@ -80,7 +118,6 @@ export default defineComponent({
       balance,
     };
   },
-  
 });
 </script>
 

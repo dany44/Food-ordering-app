@@ -5,7 +5,7 @@
 }
 
 body{
-    background: #f5f4b1;
+    background: #eaf5fa;
     min-height: 100vh;
     display: flex;
     font-weight: 400;
@@ -71,7 +71,7 @@ html,
 }
 
 .home-wrapper  {
-  background: #f5f4b1;
+  background: #eaf5fa;
   margin-top: 60px;
 }
 

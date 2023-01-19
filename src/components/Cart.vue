@@ -11,14 +11,16 @@
       <v-img
         class="v-img__contain"
         height="250"
-        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+        :src="menu.url"
       ></v-img>
   
       <v-card-title>{{ menu.name }}</v-card-title>
   
       <v-card-text>
         <div>
-          {{ menu.quantity }}
+          <h1>
+            {{ menu.quantity }}
+          </h1>
         </div>
       </v-card-text>
   

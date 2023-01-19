@@ -39,19 +39,10 @@ export default defineComponent({
           currentTimePlus30Minutes.getMinutes() + 30
         );
 
-        const menus = this.panier.reduce((acc: any, item: any) => {
-          if (!acc[item.restaurantName]) {
-            acc = [
-              {
-                name: item.name,
-                price: item.price,
-                quantity: item.quantity,
-                articles: item.articles,
-              },
-            ];
-          }
-          return acc;
-        }, {});
+        const menus = [];
+        for (const item of this.panier) {
+          menus.push(item._id);
+        }
 
         const total_cost = this.panier.reduce(
           (acc: any, item: any) => acc + item.price * item.quantity,
@@ -60,15 +51,11 @@ export default defineComponent({
 
         const order = {
           client: this.user.username,
-          restaurant: {
-            name: this.panier[0].restaurantName,
-            localisation: this.panier[0].restaurantAddress,
-            opening_time: this.panier[0].restaurantOpen,
-          },
+          restaurant: this.panier[0].restaurantId,
           order: {
             menus: menus,
             total_cost: total_cost,
-            status: "en attente du restaurateur",
+            status: "En cours",
             time_placed: new Date(),
             time_delivered: currentTimePlus30Minutes,
             delivery_person: {
@@ -85,8 +72,33 @@ export default defineComponent({
         };
 
         console.log(order);
-
-        
+        const response = await axios.post(
+          "http://localhost:5050/api/restorer/orders",
+          {
+            client: this.user.username,
+            restaurant: this.panier[0].restaurantId,
+            order: {
+              menus: menus,
+              total_cost: total_cost,
+              status: "En cours",
+              time_placed: new Date(),
+              time_delivered: currentTimePlus30Minutes,
+              delivery_person: {
+                deliver_username: "Danish",
+                delivery_location: "Paquebot",
+              },
+            },
+            code_client: referralCodes.generate({
+              pattern: "#####-#####-##",
+            })[0],
+            code_restaurant: referralCodes.generate({
+              pattern: "#####-#####-##",
+            })[0],
+          },
+          {
+            headers: { "auth-token": localStorage.getItem("token") },
+          }
+        );
       } catch (error) {
         console.error(error);
       }

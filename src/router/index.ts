@@ -43,6 +43,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/CartView.vue'),
     meta: { requiresAuth: true }
   },
+  {
+    path: "/orders",
+    component: () => import('../views/OrderView.vue'),
+    meta: { requiresAuth: true }
+  },
 ]
 
 const router = createRouter({

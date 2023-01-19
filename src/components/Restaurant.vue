@@ -11,14 +11,14 @@
     <v-img
       class="v-img__contain"
       height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      :src="restaurant.url"
     ></v-img>
 
     <v-card-title>{{ restaurant.name }}</v-card-title>
 
     <v-card-text>
       <div>
-        {{ restaurant.address }}
+        {{ restaurant.location }}
       </div>
       <div>
         <v-chip-group
@@ -26,7 +26,7 @@
           column
         >
           <template
-            v-for="(hours, index) in restaurant.opening_hours"
+            v-for="(hours, index) in restaurant.opening_time"
             :key="index"
           >
             <v-chip>{{ hours[0] }}h - {{ hours[1] }}h </v-chip>

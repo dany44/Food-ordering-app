@@ -2,7 +2,7 @@
   <div class="home-wrapper">
     <v-container>
       <v-row>
-        <v-col v-for="rest in restaurant.menu" :key="rest.name" cols="4">
+        <v-col v-for="rest in restaurant.menus" :key="rest.name" cols="4">
           <v-card>
             <product-component :menu="rest" :restaurant="restaurant"></product-component>
           </v-card>

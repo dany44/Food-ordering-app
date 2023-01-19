@@ -3,10 +3,10 @@
     <div class="auth-inner">
       <div>
         <h6>Votre code parrainage: {{ user.referal_code }}</h6>
-        <button @click="deleteAccount" class="btn btn-primary btn-block">
+        <button @click="deleteAccount" class="btn btn-secondary btn-block">
           Supprimer le compte
         </button>
-        <button @click="editAccount" class="btn btn-primary btn-block">
+        <button @click="editAccount" class="btn btn-secondary btn-block">
           Modifier le compte
         </button>
       </div>
