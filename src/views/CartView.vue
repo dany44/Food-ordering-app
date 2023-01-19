@@ -9,21 +9,35 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-alert
+      v-if="orderSubmitted"
+      type="success"
+      dismissible
+      @input="orderSubmitted = false"
+      timeout="1000">
+     Commande envoyée avec succès
+    </v-alert>
   </div>
-  <button class="btn btn-secondary" @click="submitOrder">
+  <button class="btn btn-secondary" v-if="panier && !orderSubmitted" @click="submitOrder">
     Finaliser la commande
   </button>
 </template>
     
     <script lang="ts">
 import { defineComponent } from "vue";
-import { mapGetters } from "vuex";
+import { mapGetters, useStore } from "vuex"; //
 import CartComponent from "../components/Cart.vue";
 import axios from "axios";
+import store from '../store'
+import route from "../router";
+
+
 const referralCodes = require("referral-codes");
 
 export default defineComponent({
   name: "Home",
+  store,
+  route,
   components: {
     CartComponent,
   },
@@ -31,8 +45,14 @@ export default defineComponent({
     ...mapGetters(["panier"]),
     ...mapGetters(["user"]),
   },
+  data: () => {
+    return {
+      orderSubmitted: false,
+    };
+  },
   methods: {
     async submitOrder() {
+
       try {
         let currentTimePlus30Minutes = new Date();
         currentTimePlus30Minutes.setMinutes(
@@ -102,6 +122,12 @@ export default defineComponent({
       } catch (error) {
         console.error(error);
       }
+      this.orderSubmitted = true;
+      setTimeout(() => {
+        this.orderSubmitted = false;
+        route.push("/");
+      }, 3000);
+      store.dispatch("clearPanier"); //
     },
   },
   mounted() {
